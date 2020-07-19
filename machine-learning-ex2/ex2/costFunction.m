@@ -19,21 +19,13 @@ grad = zeros(size(theta));
 %
 % Note: grad should have the same dimensions as theta
 %
-n = size(X, 2);
 
-for i = 1 : m,
-    J = J + ( y(i) * log(sigmoid(dot(theta', X(i, :)))) + (1 - y(i)) * log(1 - sigmoid(dot(theta', X(i, :)))) );
-end;
-J = -J / m;
-
-for j = 1 : n,
-    for i = 1 : m,
-        grad(j) = grad(j) + ( sigmoid(dot(theta', X(i, :))) - y(i) ) * X(i, j);
-        %grad(j) = 0;
-    end;
-    grad(j) = grad(j) / m;
-end;
-
+% h: (m x 1) dimension vector of results of sigmoid function on (theta' * X(i, :))
+h = sigmoid(X * theta);
+% J = R * (m x 1) vector * (1 x m) vector = R
+J =  (1 / m) * ( -y' * log(h) - (1 - y') * log(1 - h) );
+% grad
+grad = (1 / m) * (h - y)' * X;
 
 % =============================================================
 
